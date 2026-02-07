@@ -19,6 +19,7 @@ import CollectionsOutlinedIcon from '@mui/icons-material/CollectionsOutlined';
 import { useNavigate } from 'react-router-dom';
 import { unifiedQuery, listImages } from '@/api/endpoints';
 import { normalizeFromListItem, normalizeFromSearchResult } from '@/api/normalize';
+import { preloadThumbnails } from '@/utils/imageUrl';
 import type { QueryResponse, NormalizedImage, ImageListItem } from '@/api/types';
 import { ImageGrid } from '@/components/image';
 import { useAuth } from '@/contexts/AuthContext';
@@ -41,8 +42,11 @@ export default function HomePage() {
     listImages({ limit: 6, page: 1 })
       .then((res) => {
         if (cancelled) return;
-        setRecentImages(res.images.map((img: ImageListItem) => normalizeFromListItem(img)));
+        const items = res.images.map((img: ImageListItem) => normalizeFromListItem(img));
+        setRecentImages(items);
         setTotalImages(res.pagination.total);
+        // Preload thumbnails so they render instantly
+        preloadThumbnails(items.map((img) => img.id));
       })
       .catch(() => {
         if (!cancelled) setRecentImages([]);

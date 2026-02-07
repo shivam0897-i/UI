@@ -11,6 +11,7 @@ import { listImages } from '@/api/endpoints';
 import type { ImageListItem, ImageStatus, NormalizedImage, ImageListParams } from '@/api/types';
 import { normalizeFromListItem } from '@/api/normalize';
 import { ImageGrid } from '@/components/image';
+import { preloadThumbnails } from '@/utils/imageUrl';
 import { EmptyState, LoadingSkeleton } from '@/components/common';
 import { useNavigate } from 'react-router-dom';
 
@@ -40,6 +41,8 @@ export default function GalleryPage() {
       setImages(response.images);
       setTotalPages(response.pagination.total_pages);
       setTotalImages(response.pagination.total);
+      // Preload thumbnails in parallel
+      preloadThumbnails(response.images.map((img) => img.image_id));
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to fetch images');
     } finally {
