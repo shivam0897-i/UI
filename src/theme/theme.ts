@@ -5,16 +5,16 @@ import { createTheme, type ThemeOptions, alpha } from '@mui/material/styles';
 // NO gradients on interactive elements. Solid, intentional colors.
 
 const shared: ThemeOptions = {
-  shape: { borderRadius: 10 },
+  shape: { borderRadius: 4 },
   typography: {
-    fontFamily: '"Plus Jakarta Sans", system-ui, -apple-system, sans-serif',
+    fontFamily: 'ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
     h1: { fontWeight: 700, fontSize: '2.5rem', letterSpacing: '-0.025em', lineHeight: 1.15 },
     h2: { fontWeight: 700, fontSize: '2rem', letterSpacing: '-0.02em', lineHeight: 1.2 },
     h3: { fontWeight: 600, fontSize: '1.55rem', letterSpacing: '-0.015em', lineHeight: 1.3 },
     h4: { fontWeight: 600, fontSize: '1.25rem', letterSpacing: '-0.01em' },
     h5: { fontWeight: 600, fontSize: '1.05rem' },
     h6: { fontWeight: 600, fontSize: '0.925rem' },
-    button: { textTransform: 'none', fontWeight: 600, letterSpacing: '0.01em' },
+    button: { textTransform: 'uppercase' as const, fontWeight: 600, letterSpacing: '0.06em' },
     subtitle1: { fontWeight: 500 },
     subtitle2: { fontWeight: 600, fontSize: '0.85rem' },
     body1: { lineHeight: 1.65 },
@@ -42,7 +42,7 @@ const shared: ThemeOptions = {
     },
     MuiButton: {
       styleOverrides: {
-        root: { borderRadius: 8, padding: '8px 20px', fontWeight: 600 },
+        root: { borderRadius: 4, padding: '8px 20px', fontWeight: 600 },
         containedPrimary: {
           '&:hover': { filter: 'brightness(1.1)' },
         },
@@ -51,7 +51,7 @@ const shared: ThemeOptions = {
     },
     MuiChip: {
       styleOverrides: {
-        root: { fontWeight: 500, borderRadius: 6 },
+        root: { fontWeight: 500, borderRadius: 3 },
       },
     },
     MuiTextField: {
@@ -59,7 +59,7 @@ const shared: ThemeOptions = {
     },
     MuiOutlinedInput: {
       styleOverrides: {
-        root: { borderRadius: 8 },
+        root: { borderRadius: 4 },
       },
     },
     MuiSkeleton: {
@@ -73,7 +73,7 @@ const shared: ThemeOptions = {
     },
     MuiTooltip: {
       styleOverrides: {
-        tooltip: { borderRadius: 6, fontSize: '0.75rem' },
+        tooltip: { borderRadius: 3, fontSize: '0.75rem' },
       },
     },
     MuiDrawer: {
@@ -83,13 +83,13 @@ const shared: ThemeOptions = {
     },
     MuiListItemButton: {
       styleOverrides: {
-        root: { borderRadius: 8, margin: '2px 8px' },
+        root: { borderRadius: 4, margin: '2px 8px' },
       },
     },
     MuiAccordion: {
       defaultProps: { elevation: 0 },
       styleOverrides: {
-        root: { borderRadius: '10px !important', '&::before': { display: 'none' } },
+        root: { borderRadius: '4px !important', '&::before': { display: 'none' } },
       },
     },
   },
