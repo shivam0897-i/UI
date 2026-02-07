@@ -81,7 +81,7 @@ export default function ImageUploader({
           sx={(theme) => ({
             border: '2px dashed',
             borderColor: isDragActive ? 'primary.main' : 'divider',
-            borderRadius: 3,
+            borderRadius: 1,
             p: 6,
             textAlign: 'center',
             cursor: isUploading ? 'not-allowed' : 'pointer',

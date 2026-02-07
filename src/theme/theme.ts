@@ -1,7 +1,7 @@
 import { createTheme, type ThemeOptions, alpha } from '@mui/material/styles';
 
 // ─── Design Tokens ──────────────────────────────────────────────────
-// Distinctive "Plus Jakarta Sans" + muted sage/slate palette.
+// AskFrame V2: System-native fonts, Swiss precision, flat + bordered.
 // NO gradients on interactive elements. Solid, intentional colors.
 
 const shared: ThemeOptions = {
@@ -33,9 +33,9 @@ const shared: ThemeOptions = {
     MuiCard: {
       styleOverrides: {
         root: {
-          borderRadius: 12,
+          borderRadius: 4,
           backgroundImage: 'none',
-          transition: 'transform 0.2s ease, box-shadow 0.2s ease',
+          transition: 'border-color 0.2s ease',
         },
       },
       defaultProps: { elevation: 0 },

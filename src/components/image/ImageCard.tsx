@@ -26,13 +26,9 @@ export default function ImageCard({ image, onFindSimilar }: ImageCardProps) {
         flexDirection: 'column',
         border: 1,
         borderColor: 'divider',
-        transition: 'transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease',
+        transition: 'border-color 0.2s ease',
         '&:hover': {
-          transform: 'translateY(-2px)',
-          boxShadow: t.palette.mode === 'dark'
-            ? '0 8px 24px rgba(0,0,0,0.35)'
-            : '0 8px 24px rgba(0,0,0,0.08)',
-          borderColor: alpha(t.palette.primary.main, 0.25),
+          borderColor: alpha(t.palette.primary.main, 0.4),
         },
       })}
     >

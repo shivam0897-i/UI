@@ -16,8 +16,8 @@ export default function TypingIndicator() {
           bgcolor: 'background.paper',
           border: 1,
           borderColor: 'divider',
-          borderRadius: 2.5,
-          borderBottomLeftRadius: 4,
+          borderRadius: 1,
+          borderBottomLeftRadius: 2,
         }}
       >
         {[0, 1, 2].map((i) => (

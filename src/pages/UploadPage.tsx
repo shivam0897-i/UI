@@ -188,7 +188,7 @@ export default function UploadPage() {
               sx={{
                 border: '2px dashed',
                 borderColor: isDragActive ? 'primary.main' : 'divider',
-                borderRadius: 3,
+                borderRadius: 1,
                 p: 6,
                 textAlign: 'center',
                 cursor: 'pointer',

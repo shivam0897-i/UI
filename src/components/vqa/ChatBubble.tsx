@@ -23,7 +23,7 @@ export default function ChatBubble({ message }: ChatBubbleProps) {
         sx={{
           maxWidth: '80%',
           p: 1.5,
-          borderRadius: 2.5,
+          borderRadius: 1,
           bgcolor: isUser ? 'primary.main' : 'background.paper',
           color: isUser ? '#fff' : 'text.primary',
           border: isUser ? 'none' : 1,

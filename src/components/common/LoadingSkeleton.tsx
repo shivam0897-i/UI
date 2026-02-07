@@ -9,7 +9,7 @@ interface LoadingSkeletonProps {
 
 function CardSkeleton() {
   return (
-    <Box sx={{ borderRadius: 3, overflow: 'hidden' }}>
+    <Box sx={{ borderRadius: 1, overflow: 'hidden' }}>
       <Skeleton variant="rectangular" height={200} />
       <Box sx={{ p: 2 }}>
         <Skeleton width="60%" height={24} />
@@ -26,7 +26,7 @@ function CardSkeleton() {
 function DetailSkeleton() {
   return (
     <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, gap: 3 }}>
-      <Skeleton variant="rectangular" sx={{ width: { xs: '100%', md: 500 }, height: 400, borderRadius: 3 }} />
+      <Skeleton variant="rectangular" sx={{ width: { xs: '100%', md: 500 }, height: 400, borderRadius: 1 }} />
       <Box sx={{ flex: 1 }}>
         <Skeleton width="80%" height={36} />
         <Skeleton width="50%" height={24} sx={{ mt: 1 }} />
@@ -40,7 +40,7 @@ function DetailSkeleton() {
 function ListSkeleton() {
   return (
     <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, p: 1.5 }}>
-      <Skeleton variant="rectangular" width={64} height={64} sx={{ borderRadius: 1.5 }} />
+      <Skeleton variant="rectangular" width={64} height={64} sx={{ borderRadius: 1 }} />
       <Box sx={{ flex: 1 }}>
         <Skeleton width="40%" height={20} />
         <Skeleton width="25%" height={16} sx={{ mt: 0.5 }} />

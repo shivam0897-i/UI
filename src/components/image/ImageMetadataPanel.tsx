@@ -135,7 +135,7 @@ export default function ImageMetadataPanel({ metadata }: ImageMetadataPanelProps
                 fontFamily: 'monospace',
                 bgcolor: 'action.hover',
                 p: 1.5,
-                borderRadius: 1.5,
+                borderRadius: 1,
               }}
             >
               {metadata.ocr_text}

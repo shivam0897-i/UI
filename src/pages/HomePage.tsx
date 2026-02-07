@@ -9,7 +9,6 @@ import {
   Paper,
   Chip,
   Fade,
-  alpha,
 } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
@@ -68,22 +67,21 @@ export default function HomePage() {
 
         {/* Unified query input */}
         <Paper
-          sx={(t) => ({
+          sx={{
             display: 'flex',
             alignItems: 'center',
             p: 0.5,
-            borderRadius: 2.5,
+            borderRadius: 1,
             maxWidth: 600,
             mx: 'auto',
             border: 1,
             borderColor: 'divider',
             bgcolor: 'background.paper',
-            transition: 'border-color 0.15s, box-shadow 0.15s',
+            transition: 'border-color 0.15s',
             '&:focus-within': {
               borderColor: 'primary.main',
-              boxShadow: `0 0 0 3px ${alpha(t.palette.primary.main, 0.12)}`,
             },
-          })}
+          }}
         >
           <TextField
             id="home-search"

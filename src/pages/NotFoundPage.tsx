@@ -20,7 +20,7 @@ export default function NotFoundPage() {
         sx={(t) => ({
           width: 96,
           height: 96,
-          borderRadius: '50%',
+          borderRadius: '4px',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',

@@ -120,7 +120,7 @@ export default function RegisterPage() {
         p: 2,
       }}
     >
-      <Paper sx={{ maxWidth: 420, width: '100%', p: 4, borderRadius: 3 }}>
+      <Paper sx={{ maxWidth: 420, width: '100%', p: 4, borderRadius: 1 }}>
         {/* Back link */}
         <Box sx={{ mb: 2 }}>
           <Link component={RouterLink} to="/" underline="hover" variant="body2" color="text.secondary" sx={{ display: 'inline-flex', alignItems: 'center', gap: 0.5 }}>
@@ -199,7 +199,7 @@ export default function RegisterPage() {
                   variant="determinate"
                   value={passwordStrength * 100}
                   color={strengthColor(passwordStrength)}
-                  sx={{ flex: 1, height: 6, borderRadius: 3 }}
+                  sx={{ flex: 1, height: 6, borderRadius: 1 }}
                 />
                 <Typography variant="caption" color={`${strengthColor(passwordStrength)}.main`} fontWeight={600}>
                   {strengthLabel(passwordStrength)}

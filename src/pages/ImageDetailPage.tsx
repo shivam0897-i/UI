@@ -169,7 +169,7 @@ export default function ImageDetailPage() {
       <Grid container spacing={3}>
         {/* Image with bounding boxes */}
         <Grid size={{ xs: 12, md: 7 }}>
-          <Paper sx={{ position: 'relative', borderRadius: 3, overflow: 'hidden' }}>
+          <Paper sx={{ position: 'relative', borderRadius: 1, overflow: 'hidden' }}>
             {showPlaceholder ? (
               <Box
                 sx={{

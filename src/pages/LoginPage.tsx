@@ -57,7 +57,7 @@ export default function LoginPage() {
         p: 2,
       }}
     >
-      <Paper sx={{ maxWidth: 420, width: '100%', p: 4, borderRadius: 3 }}>
+      <Paper sx={{ maxWidth: 420, width: '100%', p: 4, borderRadius: 1 }}>
         {/* Back link */}
         <Box sx={{ mb: 2 }}>
           <Link component={RouterLink} to="/" underline="hover" variant="body2" color="text.secondary" sx={{ display: 'inline-flex', alignItems: 'center', gap: 0.5 }}>
