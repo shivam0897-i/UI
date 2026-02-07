@@ -46,7 +46,7 @@ const layoutStyles: Record<string, SxProps<Theme>> = {
   root: { display: 'flex', minHeight: '100vh' },
   appBar: {
     zIndex: (t: Theme) => t.zIndex.drawer + 1,
-    bgcolor: 'background.default',
+    bgcolor: 'background.paper',
     borderBottom: 1,
     borderColor: 'divider',
   },
@@ -203,7 +203,11 @@ export default function Layout() {
                 width: DRAWER_WIDTH,
                 boxSizing: 'border-box',
                 bgcolor: 'background.default',
-                border: 'none',
+                borderRight: 1,
+                borderColor: 'divider',
+                borderLeft: 'none',
+                borderTop: 'none',
+                borderBottom: 'none',
               },
             }}
           >

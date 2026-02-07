@@ -149,28 +149,7 @@ export default function ImageMetadataPanel({ metadata }: ImageMetadataPanelProps
         </Accordion>
       )}
 
-      {/* Confidence Scores */}
-      {metadata.confidence_scores && (
-        <Accordion>
-          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography fontWeight={600}>Confidence Scores</Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            <Grid container spacing={1}>
-              {Object.entries(metadata.confidence_scores).map(([key, val]) => (
-                <Grid key={key} size={6}>
-                  <Typography variant="caption" color="text.secondary" textTransform="capitalize">
-                    {key.replace(/_/g, ' ')}
-                  </Typography>
-                  <Box>
-                    <ConfidenceBadge score={val as number} />
-                  </Box>
-                </Grid>
-              ))}
-            </Grid>
-          </AccordionDetails>
-        </Accordion>
-      )}
+
     </Box>
   );
 }

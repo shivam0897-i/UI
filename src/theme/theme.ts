@@ -135,6 +135,6 @@ export const lightTheme = createTheme({
       primary: '#1F2328',
       secondary: '#656D76',
     },
-    divider: alpha('#656D76', 0.15),
+    divider: alpha('#656D76', 0.25),
   },
 });
