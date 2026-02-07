@@ -78,7 +78,7 @@ const shared: ThemeOptions = {
     },
     MuiDrawer: {
       styleOverrides: {
-        paper: { borderRight: 'none' },
+        paper: { backgroundImage: 'none' },
       },
     },
     MuiListItemButton: {
@@ -113,7 +113,7 @@ export const darkTheme = createTheme({
       primary: '#E6EDF3',
       secondary: '#8B949E',
     },
-    divider: alpha('#8B949E', 0.12),
+    divider: alpha('#8B949E', 0.22),
   },
 });
 
