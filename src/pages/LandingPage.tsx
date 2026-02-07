@@ -86,7 +86,7 @@ export default function LandingPage() {
   const navigate = useNavigate();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
-  const { isAuthenticated, isLoading } = useAuth();
+  const { isAuthenticated } = useAuth();
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const dark = theme.palette.mode === 'dark';
@@ -110,9 +110,6 @@ export default function LandingPage() {
   const surface = dark ? '#161B22' : '#FFFFFF';
 
   // ─── Effects ───────────────────────────────────────────────────────
-  useEffect(() => {
-    if (!isLoading && isAuthenticated) navigate('/dashboard', { replace: true });
-  }, [isAuthenticated, isLoading, navigate]);
 
   useEffect(() => {
     const fn = () => setScrolled(window.scrollY > 50);
@@ -225,38 +222,60 @@ export default function LandingPage() {
             {!isMobile ? (
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
                 <ThemeToggle />
-                <Button
-                  onClick={() => navigate('/login')}
-                  sx={{
-                    color: muted,
-                    fontWeight: 600,
-                    fontSize: '0.75rem',
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.08em',
-                    borderRadius: '2px',
-                    px: 2,
-                    '&:hover': { bgcolor: alpha(fg, 0.04) },
-                  }}
-                >
-                  Log in
-                </Button>
-                <Button
-                  onClick={() => navigate('/register')}
-                  sx={{
-                    bgcolor: fg,
-                    color: bg,
-                    fontWeight: 700,
-                    fontSize: '0.75rem',
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.08em',
-                    borderRadius: '2px',
-                    px: 3,
-                    py: 0.8,
-                    '&:hover': { bgcolor: alpha(fg, 0.82) },
-                  }}
-                >
-                  Create Account
-                </Button>
+                {isAuthenticated ? (
+                  <Button
+                    onClick={() => navigate('/dashboard')}
+                    sx={{
+                      bgcolor: fg,
+                      color: bg,
+                      fontWeight: 700,
+                      fontSize: '0.75rem',
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.08em',
+                      borderRadius: '2px',
+                      px: 3,
+                      py: 0.8,
+                      '&:hover': { bgcolor: alpha(fg, 0.82) },
+                    }}
+                  >
+                    Dashboard
+                  </Button>
+                ) : (
+                  <>
+                    <Button
+                      onClick={() => navigate('/login')}
+                      sx={{
+                        color: muted,
+                        fontWeight: 600,
+                        fontSize: '0.75rem',
+                        textTransform: 'uppercase',
+                        letterSpacing: '0.08em',
+                        borderRadius: '2px',
+                        px: 2,
+                        '&:hover': { bgcolor: alpha(fg, 0.04) },
+                      }}
+                    >
+                      Log in
+                    </Button>
+                    <Button
+                      onClick={() => navigate('/register')}
+                      sx={{
+                        bgcolor: fg,
+                        color: bg,
+                        fontWeight: 700,
+                        fontSize: '0.75rem',
+                        textTransform: 'uppercase',
+                        letterSpacing: '0.08em',
+                        borderRadius: '2px',
+                        px: 3,
+                        py: 0.8,
+                        '&:hover': { bgcolor: alpha(fg, 0.82) },
+                      }}
+                    >
+                      Create Account
+                    </Button>
+                  </>
+                )}
               </Box>
             ) : (
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
@@ -283,33 +302,53 @@ export default function LandingPage() {
           </IconButton>
         </Box>
         <List disablePadding>
-          <ListItemButton
-            onClick={() => { setMenuOpen(false); navigate('/login'); }}
-            sx={{ borderRadius: '2px' }}
-          >
-            <ListItemText
-              primary="LOG IN"
-              primaryTypographyProps={{
-                sx: { fontWeight: 600, fontSize: '0.82rem', letterSpacing: '0.08em' },
+          {isAuthenticated ? (
+            <ListItemButton
+              onClick={() => { setMenuOpen(false); navigate('/dashboard'); }}
+              sx={{
+                bgcolor: fg,
+                borderRadius: '2px',
+                '&:hover': { bgcolor: alpha(fg, 0.82) },
               }}
-            />
-          </ListItemButton>
-          <ListItemButton
-            onClick={() => { setMenuOpen(false); navigate('/register'); }}
-            sx={{
-              bgcolor: fg,
-              borderRadius: '2px',
-              mt: 1,
-              '&:hover': { bgcolor: alpha(fg, 0.82) },
-            }}
-          >
-            <ListItemText
-              primary="CREATE ACCOUNT"
-              primaryTypographyProps={{
-                sx: { color: bg, fontWeight: 700, fontSize: '0.82rem', letterSpacing: '0.08em' },
-              }}
-            />
-          </ListItemButton>
+            >
+              <ListItemText
+                primary="DASHBOARD"
+                primaryTypographyProps={{
+                  sx: { color: bg, fontWeight: 700, fontSize: '0.82rem', letterSpacing: '0.08em' },
+                }}
+              />
+            </ListItemButton>
+          ) : (
+            <>
+              <ListItemButton
+                onClick={() => { setMenuOpen(false); navigate('/login'); }}
+                sx={{ borderRadius: '2px' }}
+              >
+                <ListItemText
+                  primary="LOG IN"
+                  primaryTypographyProps={{
+                    sx: { fontWeight: 600, fontSize: '0.82rem', letterSpacing: '0.08em' },
+                  }}
+                />
+              </ListItemButton>
+              <ListItemButton
+                onClick={() => { setMenuOpen(false); navigate('/register'); }}
+                sx={{
+                  bgcolor: fg,
+                  borderRadius: '2px',
+                  mt: 1,
+                  '&:hover': { bgcolor: alpha(fg, 0.82) },
+                }}
+              >
+                <ListItemText
+                  primary="CREATE ACCOUNT"
+                  primaryTypographyProps={{
+                    sx: { color: bg, fontWeight: 700, fontSize: '0.82rem', letterSpacing: '0.08em' },
+                  }}
+                />
+              </ListItemButton>
+            </>
+          )}
         </List>
       </Drawer>
 
@@ -344,11 +383,11 @@ export default function LandingPage() {
 
             <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
               <Button
-                onClick={() => navigate('/register')}
+                onClick={() => navigate(isAuthenticated ? '/dashboard' : '/register')}
                 endIcon={<ArrowForwardIcon sx={{ fontSize: '16px !important' }} />}
                 sx={ctaBtn}
               >
-                Create Account
+                {isAuthenticated ? 'Dashboard' : 'Create Account'}
               </Button>
               <Button
                 onClick={() => specsRef.current?.scrollIntoView({ behavior: 'smooth' })}

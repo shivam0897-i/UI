@@ -24,7 +24,6 @@ import HomeIcon from '@mui/icons-material/Home';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import SearchIcon from '@mui/icons-material/Search';
 import CollectionsIcon from '@mui/icons-material/Collections';
-import CircleIcon from '@mui/icons-material/Circle';
 import LogoutIcon from '@mui/icons-material/Logout';
 import PersonIcon from '@mui/icons-material/Person';
 import type { SxProps, Theme } from '@mui/material';
@@ -78,10 +77,8 @@ export default function Layout() {
   const location = useLocation();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
-  const { isReady, isWaking, retryCount } = useBackendHealth();
+  const { isWaking, retryCount } = useBackendHealth();
   const { user, logout } = useAuth();
-
-  const healthColor = isReady ? 'success.main' : isWaking ? 'warning.main' : 'error.main';
 
   const handleLogout = () => {
     setAnchorEl(null);
@@ -145,11 +142,6 @@ export default function Layout() {
           </Box>
 
           <Box sx={{ flexGrow: 1 }} />
-
-          {/* Health indicator */}
-          <Tooltip title={isReady ? 'Backend online' : isWaking ? 'Backend waking...' : 'Backend offline'}>
-            <CircleIcon sx={{ fontSize: 10, color: healthColor, mr: 1.5 }} />
-          </Tooltip>
 
           <ThemeToggle />
 
