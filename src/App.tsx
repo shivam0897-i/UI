@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { SnackbarProvider } from 'notistack';
+import { Analytics } from '@vercel/analytics/react';
 import { ColorModeProvider } from '@/theme';
 import { AuthProvider } from '@/contexts/AuthContext';
 import { ErrorBoundary, ProtectedRoute } from '@/components/common';
@@ -64,6 +65,7 @@ export default function App() {
           </ErrorBoundary>
         </SnackbarProvider>
       </QueryClientProvider>
+      <Analytics />
     </ColorModeProvider>
   );
 }

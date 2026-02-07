@@ -114,7 +114,7 @@ export default function Layout() {
             sx={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}
             onClick={() => navigate('/')}
           >
-            <Logo variant="full" size={28} sx={{ color: 'text.primary' }} />
+            <Logo variant="full" size={36} sx={{ color: 'text.primary' }} />
           </Box>
 
           <Box sx={{ flexGrow: 1 }} />

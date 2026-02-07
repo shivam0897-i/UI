@@ -331,7 +331,7 @@ export default function LandingPage() {
       </Drawer>
 
       {/* ═══ Hero ═════════════════════════════════════════════════════ */}
-      <Box component="section" sx={{ pt: { xs: 14, md: 18 }, pb: { xs: 6, md: 10 } }}>
+      <Box component="section" sx={{ pt: { xs: 10, md: 12 }, pb: { xs: 6, md: 10 } }}>
         <Container maxWidth="lg">
           <Box sx={{ maxWidth: 660 }}>
             <Typography sx={{ ...label, color: sage, mb: 2.5 }}>
