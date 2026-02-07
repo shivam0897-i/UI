@@ -37,8 +37,8 @@ interface AuthContextValue {
 // ─── Token helpers ──────────────────────────────────────────────────
 
 const TOKEN_KEYS = {
-  access: 'vqa_access_token',
-  refresh: 'vqa_refresh_token',
+  access: 'askframe_access_token',
+  refresh: 'askframe_refresh_token',
 } as const;
 
 function storeTokens(tokens: TokenResponse) {

@@ -19,7 +19,7 @@ export function useColorMode(): ColorModeContextValue {
 
 function getStoredMode(): ColorMode {
   try {
-    const stored = localStorage.getItem('vqa-color-mode');
+    const stored = localStorage.getItem('askframe-color-mode');
     if (stored === 'light' || stored === 'dark') return stored;
   } catch { /* ignore */ }
   return 'dark'; // default
@@ -36,7 +36,7 @@ export function ColorModeProvider({ children }: ColorModeProviderProps) {
     setMode((prev) => {
       const next = prev === 'dark' ? 'light' : 'dark';
       try {
-        localStorage.setItem('vqa-color-mode', next);
+        localStorage.setItem('askframe-color-mode', next);
       } catch { /* ignore */ }
       return next;
     });

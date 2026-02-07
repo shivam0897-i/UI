@@ -134,23 +134,21 @@ export default function RegisterPage() {
             sx={{
               width: 48,
               height: 48,
-              borderRadius: 2,
-              bgcolor: 'primary.main',
+              borderRadius: '3px',
+              border: (t) => `2px solid ${t.palette.text.primary}`,
               display: 'inline-flex',
               alignItems: 'center',
               justifyContent: 'center',
               mb: 2,
             }}
           >
-            <Typography sx={{ color: '#fff', fontWeight: 800, fontSize: '1.1rem' }}>
-              VQ
-            </Typography>
+            <Box sx={{ width: 10, height: 10, bgcolor: 'primary.main', borderRadius: '2px' }} />
           </Box>
           <Typography variant="h5" fontWeight={700}>
             Create an account
           </Typography>
           <Typography variant="body2" color="text.secondary" sx={{ mt: 0.5 }}>
-            Get started with VQA Search
+            Get started with AskFrame
           </Typography>
         </Box>
 

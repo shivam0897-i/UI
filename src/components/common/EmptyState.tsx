@@ -21,7 +21,7 @@ const DEFAULTS: Record<EmptyVariant, { icon: typeof SearchOffIcon; title: string
   'no-images': {
     icon: ImageNotSupportedIcon,
     title: 'No images yet',
-    description: 'Upload some images to get started with search and VQA.',
+    description: 'Upload some images to get started with search and visual Q&A.',
   },
   'upload-prompt': {
     icon: CloudUploadIcon,

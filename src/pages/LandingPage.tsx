@@ -62,7 +62,7 @@ const PIPELINE = [
   { label: 'YOLOv8', desc: 'Object detection' },
   { label: 'CLIP', desc: 'Semantic embeddings' },
   { label: 'Qdrant', desc: 'Vector index' },
-  { label: 'Gemini', desc: 'VQA & captions' },
+  { label: 'Gemini', desc: 'Visual Q&A & captions' },
 ];
 
 const SPECS = [

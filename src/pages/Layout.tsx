@@ -51,10 +51,11 @@ const layoutStyles: Record<string, SxProps<Theme>> = {
     borderColor: 'divider',
   },
   logoMark: {
-    width: 30,
-    height: 30,
-    borderRadius: 1.5,
-    bgcolor: 'primary.main',
+    width: 28,
+    height: 28,
+    borderRadius: '2px',
+    border: 2,
+    borderColor: 'text.primary',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
@@ -130,16 +131,14 @@ export default function Layout() {
             <Box
               sx={layoutStyles.logoMark}
             >
-              <Typography sx={{ color: '#fff', fontWeight: 800, fontSize: '0.8rem', lineHeight: 1 }}>
-                VQ
-              </Typography>
+              <Box sx={{ width: 6, height: 6, bgcolor: 'primary.main', borderRadius: '1px' }} />
             </Box>
             <Typography
               variant="h6"
-              fontWeight={800}
-              sx={{ letterSpacing: '-0.03em' }}
+              fontWeight={700}
+              sx={{ letterSpacing: '0.04em', textTransform: 'uppercase', fontSize: '0.88rem' }}
             >
-              VQA<Typography component="span" sx={{ color: 'primary.main', fontWeight: 800, fontSize: 'inherit' }}>Search</Typography>
+              AskFrame
             </Typography>
           </Box>
 
