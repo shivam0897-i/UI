@@ -25,7 +25,11 @@ const DEFAULT_ACCEPT = {
   'image/png': ['.png'],
   'image/webp': ['.webp'],
   'image/gif': ['.gif'],
+  'image/bmp': ['.bmp'],
+  'image/tiff': ['.tif', '.tiff'],
 };
+
+const MAX_FILE_SIZE = 20 * 1024 * 1024; // 20 MB
 
 export default function ImageUploader({
   onFileSelect,
@@ -38,7 +42,13 @@ export default function ImageUploader({
 
   const onDrop = useCallback(
     (accepted: File[]) => {
-      if (accepted[0]) onFileSelect(accepted[0]);
+      if (accepted[0]) {
+        if (accepted[0].size > MAX_FILE_SIZE) {
+          alert('File size exceeds 20 MB limit.');
+          return;
+        }
+        onFileSelect(accepted[0]);
+      }
     },
     [onFileSelect],
   );
@@ -90,7 +100,7 @@ export default function ImageUploader({
                 {isDragActive ? 'Drop your image here' : 'Drag & drop an image'}
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                or click to browse. Supports JPEG, PNG, WebP, GIF
+                or click to browse. Supports JPEG, PNG, WebP, GIF, BMP, TIFF (max 20 MB)
               </Typography>
             </>
           )}

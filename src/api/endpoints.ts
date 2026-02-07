@@ -1,28 +1,26 @@
 // ─── API Endpoints ──────────────────────────────────────────────────
-// Typed functions for all 17 backend endpoints.
+// Typed functions for all backend endpoints (v2 with JWT auth).
 
 import { API_BASE, API_PREFIX, apiGet, apiPost, apiPostForm, apiDelete } from './client';
 import type {
-  AppInfoResponse,
   HealthResponse,
   IngestResponse,
   BatchIngestResponse,
   ImageListResponse,
   ImageListParams,
   ImageDocument,
+  ImageStatusResponse,
   DeleteResponse,
+  BatchDeleteResponse,
   SearchResponse,
   TextSearchRequest,
   VQAResponse,
   QueryResponse,
-  ReprocessResponse,
 } from './types';
 
-// ─── Health & Info ──────────────────────────────────────────────────
+export type ImageSize = 'thumbnail' | 'medium';
 
-export function getAppInfo(signal?: AbortSignal) {
-  return apiGet<AppInfoResponse>(`${API_BASE}/`, signal);
-}
+// ─── Health ─────────────────────────────────────────────────────────
 
 export function getHealth(signal?: AbortSignal) {
   return apiGet<HealthResponse>(`${API_BASE}/health`, signal);
@@ -32,22 +30,18 @@ export async function getHealthReady(signal?: AbortSignal) {
   return apiGet<{ status: string }>(`${API_BASE}/health/ready`, signal);
 }
 
-export async function getHealthLive(signal?: AbortSignal) {
-  return apiGet<{ status: string }>(`${API_BASE}/health/live`, signal);
-}
-
 // ─── Ingestion ──────────────────────────────────────────────────────
 
 export function ingestImage(file: File, signal?: AbortSignal) {
   const form = new FormData();
   form.append('file', file);
-  return apiPostForm<IngestResponse>(`${API_PREFIX}/images/ingest`, form, signal);
+  return apiPostForm<IngestResponse>(`${API_PREFIX}/images`, form, signal);
 }
 
 export function ingestImageByUrl(sourceUri: string, signal?: AbortSignal) {
   const form = new FormData();
   form.append('source_uri', sourceUri);
-  return apiPostForm<IngestResponse>(`${API_PREFIX}/images/ingest`, form, signal);
+  return apiPostForm<IngestResponse>(`${API_PREFIX}/images`, form, signal);
 }
 
 export function batchIngest(files: File[], signal?: AbortSignal) {
@@ -56,7 +50,7 @@ export function batchIngest(files: File[], signal?: AbortSignal) {
     form.append('files', file);
   }
   return apiPostForm<BatchIngestResponse>(
-    `${API_PREFIX}/images/batch-ingest`,
+    `${API_PREFIX}/images/batch`,
     form,
     signal,
   );
@@ -81,12 +75,23 @@ export function getImageMetadata(imageId: string, signal?: AbortSignal) {
 }
 
 /**
- * Returns the direct URL for an image file.
- * Use this as the `src` attribute of `<img>` tags.
- * The endpoint returns binary image data with correct MIME type and 24h cache.
+ * Lightweight status check for polling during processing.
+ * Returns ~50 bytes vs full metadata.
  */
-export function getImageFileUrl(imageId: string): string {
-  return `${API_PREFIX}/images/${imageId}/file`;
+export function getImageStatus(imageId: string, signal?: AbortSignal) {
+  return apiGet<ImageStatusResponse>(
+    `${API_PREFIX}/images/${imageId}/status`,
+    signal,
+  );
+}
+
+/**
+ * Returns the direct URL for an image file.
+ * Supports optional size variants: 'thumbnail' (200px), 'medium' (800px).
+ */
+export function getImageFileUrl(imageId: string, size?: ImageSize): string {
+  const base = `${API_PREFIX}/images/${imageId}/file`;
+  return size ? `${base}?size=${size}` : base;
 }
 
 // ─── Deletion ───────────────────────────────────────────────────────
@@ -95,11 +100,22 @@ export function deleteImage(imageId: string, signal?: AbortSignal) {
   return apiDelete<DeleteResponse>(`${API_PREFIX}/images/${imageId}`, signal);
 }
 
+export function batchDeleteImages(
+  imageIds: string[],
+  signal?: AbortSignal,
+) {
+  return apiPost<BatchDeleteResponse>(
+    `${API_PREFIX}/images/batch-delete`,
+    { image_ids: imageIds },
+    signal,
+  );
+}
+
 // ─── Text Search ────────────────────────────────────────────────────
 
 export function searchText(request: TextSearchRequest, signal?: AbortSignal) {
   return apiPost<SearchResponse>(
-    `${API_PREFIX}/images/search/text`,
+    `${API_PREFIX}/search/text`,
     request,
     signal,
   );
@@ -120,7 +136,7 @@ export function searchSimilarByFile(
     params.set('min_similarity', String(minSimilarity));
   }
   return apiPostForm<SearchResponse>(
-    `${API_PREFIX}/images/search/similar?${params}`,
+    `${API_PREFIX}/search/similar?${params}`,
     form,
     signal,
   );
@@ -137,7 +153,7 @@ export function searchSimilarById(
     exclude_self: String(excludeSelf),
   });
   return apiGet<SearchResponse>(
-    `${API_PREFIX}/images/search/similar/${imageId}?${params}`,
+    `${API_PREFIX}/search/similar/${imageId}?${params}`,
     signal,
   );
 }
@@ -156,7 +172,7 @@ export function askQuestion(
   }, signal);
 }
 
-export function askAboutUpload(
+export function askWithUpload(
   file: File,
   question: string,
   signal?: AbortSignal,
@@ -164,7 +180,7 @@ export function askAboutUpload(
   const form = new FormData();
   form.append('file', file);
   form.append('question', question);
-  return apiPostForm<VQAResponse>(`${API_PREFIX}/images/ask`, form, signal);
+  return apiPostForm<VQAResponse>(`${API_PREFIX}/vqa`, form, signal);
 }
 
 // ─── Unified Query ──────────────────────────────────────────────────
@@ -180,23 +196,3 @@ export function unifiedQuery(
   }, signal);
 }
 
-// ─── Reprocessing ───────────────────────────────────────────────────
-
-export function reprocess(
-  oldVersion?: string,
-  imageIds?: string[],
-  signal?: AbortSignal,
-) {
-  const form = new FormData();
-  if (oldVersion) form.append('old_version', oldVersion);
-  if (imageIds) {
-    for (const id of imageIds) {
-      form.append('image_ids', id);
-    }
-  }
-  return apiPostForm<ReprocessResponse>(
-    `${API_PREFIX}/images/reprocess`,
-    form,
-    signal,
-  );
-}

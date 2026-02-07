@@ -37,7 +37,7 @@ export default function UploadPage() {
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop: onBatchDrop,
     accept: { 'image/*': [] },
-    maxFiles: 10,
+    maxFiles: 50,
     disabled: batch.isUploading,
     noClick: false,
   });
@@ -54,7 +54,7 @@ export default function UploadPage() {
 
       <Tabs value={tab} onChange={(_, v) => setTab(v)} sx={{ mb: 3 }}>
         <Tab icon={<CloudUploadIcon />} label="Single" iconPosition="start" />
-        <Tab icon={<CollectionsIcon />} label="Batch (up to 10)" iconPosition="start" />
+        <Tab icon={<CollectionsIcon />} label="Batch (up to 50)" iconPosition="start" />
       </Tabs>
 
       {/* Single upload */}
@@ -199,7 +199,7 @@ export default function UploadPage() {
               <input {...getInputProps()} id="batch-upload-input" name="batch-upload" />
               <CollectionsIcon sx={{ fontSize: 48, color: 'text.secondary', mb: 1 }} />
               <Typography variant="h6" gutterBottom>
-                {isDragActive ? 'Drop images here' : 'Drop up to 10 images'}
+                {isDragActive ? 'Drop images here' : 'Drop up to 50 images'}
               </Typography>
               <Typography variant="body2" color="text.secondary">
                 or click to browse

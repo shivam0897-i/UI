@@ -1,6 +1,6 @@
 // ─── Enums / Literals ───────────────────────────────────────────────
 export type ImageStatus = 'pending' | 'processing' | 'completed' | 'failed';
-export type QueryType = 'search' | 'vqa' | 'hybrid' | 'clarification' | 'caption' | 'detect';
+export type QueryType = 'search' | 'vqa' | 'hybrid' | 'clarification';
 
 // ─── Core Models ────────────────────────────────────────────────────
 
@@ -42,6 +42,7 @@ export interface ConfidenceScores {
 export interface ImageDocument {
   image_id: string;
   source_uri: string;
+  user_id: string | null;
   objects: DetectedObject[];
   scene_tags: SceneTag[];
   caption: string | null;
@@ -116,6 +117,7 @@ export interface SearchResponse {
   results: SearchResult[];
   total_count: number;
   search_time_ms: number;
+  pagination: PaginationInfo | null;
 }
 
 // ─── VQA ────────────────────────────────────────────────────────────
@@ -134,8 +136,6 @@ export interface QueryResponse {
   query_type: QueryType;
   search_results: SearchResult[] | null;
   vqa_answer: string | null;
-  answer?: string | null;
-  confidence?: number | null;
   processing_time_ms: number;
 }
 
@@ -164,16 +164,24 @@ export interface BatchIngestResponse {
 
 export interface DeleteResponse {
   message: string;
-  mongodb_deleted: boolean;
-  qdrant_deleted: boolean;
 }
 
-// ─── Reprocess ──────────────────────────────────────────────────────
+export interface BatchDeleteRequest {
+  image_ids: string[];
+}
 
-export interface ReprocessResponse {
-  message: string;
-  count: number;
-  new_version: string;
+export interface BatchDeleteResponse {
+  deleted_count: number;
+  deleted_ids: string[];
+  not_found_ids: string[];
+  forbidden_ids: string[];
+}
+
+// ─── Image Status (lightweight polling) ─────────────────────────────
+
+export interface ImageStatusResponse {
+  image_id: string;
+  status: ImageStatus;
 }
 
 // ─── Health ─────────────────────────────────────────────────────────
@@ -201,11 +209,28 @@ export interface AppInfoResponse {
   health: string;
 }
 
+// ─── Auth Types ─────────────────────────────────────────────────────
+
+export interface TokenResponse {
+  access_token: string;
+  refresh_token: string;
+  token_type: 'bearer';
+  expires_in: number; // seconds (900 = 15 min)
+}
+
+export interface UserResponse {
+  user_id: string;
+  email: string;
+  is_admin: boolean;
+  created_at: string; // ISO 8601
+}
+
 // ─── Request Types ──────────────────────────────────────────────────
 
 export interface TextSearchRequest {
   query: string;
   limit?: number; // 1-100, default 10
+  page?: number;
   min_confidence?: number; // 0-1
   filters?: {
     scene_tags?: string[];

@@ -43,7 +43,7 @@ export default function HomePage() {
 
   // Normalize search results if present
   const normalizedResults: NormalizedImage[] =
-    response?.query_type === 'search' && response.search_results
+    response?.search_results
       ? response.search_results.map(normalizeFromSearchResult)
       : [];
 
@@ -162,36 +162,46 @@ export default function HomePage() {
             </Box>
 
             {/* VQA answer */}
-            {response.query_type === 'vqa' && (response.vqa_answer || response.answer) && (
+            {response.query_type === 'vqa' && response.vqa_answer && (
               <Paper sx={{ p: 3, borderRadius: 2, mb: 3 }}>
                 <Typography variant="h6" gutterBottom>Answer</Typography>
-                <Typography variant="body1">{response.vqa_answer || response.answer}</Typography>
-                {response.confidence != null && (
-                  <Typography variant="caption" color="text.secondary" sx={{ mt: 1, display: 'block' }}>
-                    Confidence: {(response.confidence * 100).toFixed(1)}%
-                  </Typography>
-                )}
+                <Typography variant="body1">{response.vqa_answer}</Typography>
               </Paper>
             )}
 
-            {/* Caption result */}
-            {response.query_type === 'caption' && (response.vqa_answer || response.answer) && (
-              <Paper sx={{ p: 3, borderRadius: 2, mb: 3 }}>
-                <Typography variant="h6" gutterBottom>Caption</Typography>
-                <Typography variant="body1">{response.vqa_answer || response.answer}</Typography>
-              </Paper>
+            {/* Hybrid: answer + top search result */}
+            {response.query_type === 'hybrid' && (
+              <>
+                {response.vqa_answer && (
+                  <Paper sx={{ p: 3, borderRadius: 2, mb: 3 }}>
+                    <Typography variant="h6" gutterBottom>Answer</Typography>
+                    <Typography variant="body1">{response.vqa_answer}</Typography>
+                  </Paper>
+                )}
+                {normalizedResults.length > 0 && (
+                  <ImageGrid images={normalizedResults} />
+                )}
+              </>
             )}
 
             {/* Search results */}
-            {response.query_type === 'search' && normalizedResults.length > 0 && (
-              <ImageGrid images={normalizedResults} />
+            {response.query_type === 'search' && (
+              normalizedResults.length > 0 ? (
+                <ImageGrid images={normalizedResults} />
+              ) : (
+                <Paper sx={{ p: 3, borderRadius: 2, mb: 3, textAlign: 'center' }}>
+                  <Typography variant="body1" color="text.secondary">
+                    No images found. Try a different query or upload some images first.
+                  </Typography>
+                </Paper>
+              )
             )}
 
-            {/* Detect result */}
-            {response.query_type === 'detect' && (response.vqa_answer || response.answer) && (
-              <Paper sx={{ p: 3, borderRadius: 2, mb: 3 }}>
-                <Typography variant="h6" gutterBottom>Detection</Typography>
-                <Typography variant="body1">{response.vqa_answer || response.answer}</Typography>
+            {/* Clarification — help message */}
+            {response.query_type === 'clarification' && response.vqa_answer && (
+              <Paper sx={{ p: 3, borderRadius: 2, mb: 3, bgcolor: 'info.main', color: 'info.contrastText' }}>
+                <Typography variant="h6" gutterBottom>Need more info</Typography>
+                <Typography variant="body1">{response.vqa_answer}</Typography>
               </Paper>
             )}
           </Box>

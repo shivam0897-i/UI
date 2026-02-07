@@ -14,6 +14,10 @@ import {
   Tooltip,
   useMediaQuery,
   useTheme,
+  Menu,
+  MenuItem,
+  Avatar,
+  Divider,
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import HomeIcon from '@mui/icons-material/Home';
@@ -21,9 +25,13 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import SearchIcon from '@mui/icons-material/Search';
 import CollectionsIcon from '@mui/icons-material/Collections';
 import CircleIcon from '@mui/icons-material/Circle';
+import LogoutIcon from '@mui/icons-material/Logout';
+import PersonIcon from '@mui/icons-material/Person';
 import type { SxProps, Theme } from '@mui/material';
 import { ThemeToggle, BackendWaking } from '@/components/common';
 import { useBackendHealth } from '@/hooks';
+import { useAuth } from '@/contexts/AuthContext';
+import { revokeAllImageUrls } from '@/utils/imageUrl';
 
 const NAV_ITEMS = [
   { label: 'Home', path: '/', icon: <HomeIcon /> },
@@ -63,13 +71,22 @@ const layoutStyles: Record<string, SxProps<Theme>> = {
 
 export default function Layout() {
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const navigate = useNavigate();
   const location = useLocation();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const { isReady, isWaking, retryCount } = useBackendHealth();
+  const { user, logout } = useAuth();
 
   const healthColor = isReady ? 'success.main' : isWaking ? 'warning.main' : 'error.main';
+
+  const handleLogout = () => {
+    setAnchorEl(null);
+    revokeAllImageUrls();
+    logout();
+    navigate('/login', { replace: true });
+  };
 
   const navContent = (
     <List>
@@ -134,6 +151,39 @@ export default function Layout() {
           </Tooltip>
 
           <ThemeToggle />
+
+          {/* User menu */}
+          {user && (
+            <>
+              <Tooltip title={user.email}>
+                <IconButton onClick={(e) => setAnchorEl(e.currentTarget)} sx={{ ml: 0.5 }}>
+                  <Avatar sx={{ width: 32, height: 32, fontSize: '0.85rem', bgcolor: 'primary.main' }}>
+                    {(user.email?.[0] ?? 'U').toUpperCase()}
+                  </Avatar>
+                </IconButton>
+              </Tooltip>
+              <Menu
+                anchorEl={anchorEl}
+                open={Boolean(anchorEl)}
+                onClose={() => setAnchorEl(null)}
+                transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+                anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+              >
+                <MenuItem disabled>
+                  <ListItemIcon><PersonIcon fontSize="small" /></ListItemIcon>
+                  <ListItemText
+                    primary={user.email}
+                    secondary={user.is_admin ? 'Admin' : undefined}
+                  />
+                </MenuItem>
+                <Divider />
+                <MenuItem onClick={handleLogout}>
+                  <ListItemIcon><LogoutIcon fontSize="small" /></ListItemIcon>
+                  <ListItemText primary="Sign out" />
+                </MenuItem>
+              </Menu>
+            </>
+          )}
         </Toolbar>
       </AppBar>
 

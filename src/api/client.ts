@@ -1,10 +1,10 @@
 // ─── API Client ─────────────────────────────────────────────────────
-// Centralized fetch wrapper with error handling and 503 cold-start detection.
+// Centralized fetch wrapper with JWT auth, 401 auto-refresh, and error handling.
+
+import { getStoredAccessToken, refreshAccessToken } from '@/contexts/AuthContext';
 
 const BASE_URL =
   import.meta.env.VITE_API_BASE_URL ?? 'https://shivam-2211-vqa.hf.space';
-
-const HF_TOKEN = import.meta.env.VITE_HF_TOKEN as string | undefined;
 
 export const API_BASE = BASE_URL;
 export const API_PREFIX = `${BASE_URL}/api/v1`;
@@ -12,8 +12,9 @@ export const API_PREFIX = `${BASE_URL}/api/v1`;
 // ─── Auth Headers ───────────────────────────────────────────────────
 
 function authHeaders(): Record<string, string> {
-  if (HF_TOKEN) {
-    return { Authorization: `Bearer ${HF_TOKEN}` };
+  const token = getStoredAccessToken();
+  if (token) {
+    return { Authorization: `Bearer ${token}` };
   }
   return {};
 }
@@ -39,6 +40,13 @@ export class BackendSleepingError extends ApiError {
   }
 }
 
+export class UnauthorizedError extends ApiError {
+  constructor(detail = 'Session expired. Please log in again.') {
+    super(401, detail);
+    this.name = 'UnauthorizedError';
+  }
+}
+
 // ─── Response Parser ────────────────────────────────────────────────
 
 async function parseErrorResponse(response: Response): Promise<string> {
@@ -59,8 +67,43 @@ async function handleResponse<T>(response: Response): Promise<T> {
     throw new BackendSleepingError();
   }
 
+  if (response.status === 401) {
+    throw new UnauthorizedError(await parseErrorResponse(response));
+  }
+
   const detail = await parseErrorResponse(response);
   throw new ApiError(response.status, detail);
+}
+
+// ─── Fetch with auto-refresh on 401 ────────────────────────────────
+
+async function fetchWithAuth(
+  url: string,
+  init: RequestInit,
+): Promise<Response> {
+  let response = await fetch(url, {
+    ...init,
+    headers: { ...authHeaders(), ...init.headers },
+  });
+
+  // If 401, attempt token refresh and retry once
+  if (response.status === 401) {
+    const newToken = await refreshAccessToken();
+    if (newToken) {
+      const retryHeaders: Record<string, string> = {
+        ...(init.headers as Record<string, string>),
+        Authorization: `Bearer ${newToken}`,
+      };
+      response = await fetch(url, { ...init, headers: retryHeaders });
+    } else {
+      // Refresh failed — session is truly expired, redirect to login
+      if (typeof window !== 'undefined' && !window.location.pathname.startsWith('/login')) {
+        window.location.href = '/login';
+      }
+    }
+  }
+
+  return response;
 }
 
 // ─── HTTP Methods ───────────────────────────────────────────────────
@@ -69,10 +112,7 @@ export async function apiGet<T>(
   path: string,
   signal?: AbortSignal,
 ): Promise<T> {
-  const response = await fetch(`${path}`, {
-    headers: { ...authHeaders() },
-    signal,
-  });
+  const response = await fetchWithAuth(path, { signal });
   return handleResponse<T>(response);
 }
 
@@ -81,9 +121,9 @@ export async function apiPost<T>(
   body: unknown,
   signal?: AbortSignal,
 ): Promise<T> {
-  const response = await fetch(`${path}`, {
+  const response = await fetchWithAuth(path, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json', ...authHeaders() },
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(body),
     signal,
   });
@@ -95,9 +135,21 @@ export async function apiPostForm<T>(
   formData: FormData,
   signal?: AbortSignal,
 ): Promise<T> {
-  const response = await fetch(`${path}`, {
+  const response = await fetchWithAuth(path, {
     method: 'POST',
-    headers: { ...authHeaders() },
+    body: formData,
+    signal,
+  });
+  return handleResponse<T>(response);
+}
+
+export async function apiPut<T>(
+  path: string,
+  formData: FormData,
+  signal?: AbortSignal,
+): Promise<T> {
+  const response = await fetchWithAuth(path, {
+    method: 'PUT',
     body: formData,
     signal,
   });
@@ -108,10 +160,10 @@ export async function apiDelete<T>(
   path: string,
   signal?: AbortSignal,
 ): Promise<T> {
-  const response = await fetch(`${path}`, {
+  const response = await fetchWithAuth(path, {
     method: 'DELETE',
-    headers: { ...authHeaders() },
     signal,
   });
   return handleResponse<T>(response);
 }
+

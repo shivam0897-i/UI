@@ -5,3 +5,4 @@ export { default as LoadingSkeleton } from './LoadingSkeleton';
 export { default as EmptyState } from './EmptyState';
 export { default as ThemeToggle } from './ThemeToggle';
 export { default as BackendWaking } from './BackendWaking';
+export { default as ProtectedRoute } from './ProtectedRoute';

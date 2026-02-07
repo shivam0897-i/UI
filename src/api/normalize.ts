@@ -18,7 +18,7 @@ import type {
 export function normalizeFromDocument(doc: ImageDocument): NormalizedImage {
   return {
     id: doc.image_id,
-    imageUrl: getImageFileUrl(doc.image_id),
+    imageUrl: getImageFileUrl(doc.image_id, 'thumbnail'),
     caption: doc.caption,
     status: doc.status,
     objectLabels: (doc.objects ?? []).map((o) => o.label),
@@ -28,7 +28,7 @@ export function normalizeFromDocument(doc: ImageDocument): NormalizedImage {
     score: null,
     ocrText: doc.ocr_text,
     createdAt: doc.created_at,
-    filename: null, // not available in detail endpoint
+    filename: null,
     fileSizeBytes: doc.file_size_bytes,
     mimeType: doc.mime_type,
   };
@@ -58,7 +58,7 @@ export function normalizeFromListItem(item: ImageListItem): NormalizedImage {
 
   return {
     id: item.image_id,
-    imageUrl: getImageFileUrl(item.image_id),
+    imageUrl: getImageFileUrl(item.image_id, 'thumbnail'),
     caption: item.caption ?? null,
     status: item.status,
     objectLabels: objects.map((o) => o.label),
@@ -83,15 +83,15 @@ export function normalizeFromListItem(item: ImageListItem): NormalizedImage {
 export function normalizeFromSearchResult(result: SearchResult): NormalizedImage {
   return {
     id: result.image_id,
-    imageUrl: getImageFileUrl(result.image_id),
+    imageUrl: getImageFileUrl(result.image_id, 'thumbnail'),
     caption: result.caption,
-    status: 'completed', // search only returns completed images
+    status: 'completed',
     objectLabels: result.objects ?? [],
-    objectDetails: null, // search results have no detailed objects
+    objectDetails: null,
     sceneLabels: result.scene_tags ?? [],
     sceneDetails: null,
     score: result.score,
-    ocrText: null, // not in search results
+    ocrText: null,
     createdAt: '',
     filename: null,
     fileSizeBytes: null,

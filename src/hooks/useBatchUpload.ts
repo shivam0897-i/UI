@@ -1,5 +1,5 @@
 import { useState, useCallback, useRef } from 'react';
-import { batchIngest, getImageMetadata } from '@/api/endpoints';
+import { batchIngest, getImageMetadata, getImageStatus } from '@/api/endpoints';
 import type { BatchIngestResult, ImageDocument } from '@/api/types';
 
 export type BatchItemStatus = 'pending' | 'uploading' | 'processing' | 'completed' | 'failed';
@@ -24,7 +24,7 @@ interface UseBatchUploadReturn {
   reset: () => void;
 }
 
-const MAX_BATCH_SIZE = 10;
+const MAX_BATCH_SIZE = 50;
 
 /**
  * Manages batch image upload with per-item status tracking.
@@ -61,12 +61,15 @@ export function useBatchUpload(): UseBatchUploadReturn {
     for (let i = 0; i < maxAttempts; i++) {
       if (abortRef.current) return null;
       try {
-        const doc = await getImageMetadata(imageId);
-        if (doc.status === 'completed' || doc.status === 'failed') return doc;
+        // Use lightweight status endpoint
+        const { status } = await getImageStatus(imageId);
+        if (status === 'completed' || status === 'failed') {
+          return await getImageMetadata(imageId);
+        }
       } catch {
         // not ready yet
       }
-      await new Promise((r) => setTimeout(r, 1500));
+      await new Promise((r) => setTimeout(r, 2000));
     }
     return null;
   }, []);

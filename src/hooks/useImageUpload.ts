@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react';
-import { ingestImage, ingestImageByUrl, getImageMetadata } from '@/api/endpoints';
+import { ingestImage, ingestImageByUrl, getImageMetadata, getImageStatus } from '@/api/endpoints';
 import type { IngestResponse, ImageDocument } from '@/api/types';
 
 export type UploadStatus = 'idle' | 'uploading' | 'polling' | 'done' | 'error';
@@ -34,17 +34,19 @@ export function useImageUpload(): UseImageUploadReturn {
   const [state, setState] = useState<UploadState>(INITIAL_STATE);
 
   const pollForCompletion = useCallback(async (imageId: string): Promise<ImageDocument | null> => {
-    const maxAttempts = 40; // 40 × 1.5s = 60 seconds
+    const maxAttempts = 40; // 40 × 2s = 80 seconds
     for (let i = 0; i < maxAttempts; i++) {
       try {
-        const doc = await getImageMetadata(imageId);
-        if (doc.status === 'completed' || doc.status === 'failed') {
-          return doc;
+        // Use lightweight status endpoint instead of full metadata
+        const { status } = await getImageStatus(imageId);
+        if (status === 'completed' || status === 'failed') {
+          // Fetch full metadata only when processing is done
+          return await getImageMetadata(imageId);
         }
       } catch {
-        // Metadata not ready yet
+        // Status not ready yet
       }
-      await new Promise((r) => setTimeout(r, 1500));
+      await new Promise((r) => setTimeout(r, 2000));
       // Increment progress during polling
       setState((prev) => ({
         ...prev,
