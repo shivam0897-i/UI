@@ -47,6 +47,7 @@ const layoutStyles: Record<string, SxProps<Theme>> = {
   appBar: {
     zIndex: (t: Theme) => t.zIndex.drawer + 1,
     bgcolor: 'background.paper',
+    color: 'text.primary',
     borderBottom: 1,
     borderColor: 'divider',
   },
@@ -136,6 +137,7 @@ export default function Layout() {
             <Typography
               variant="h6"
               fontWeight={700}
+              color="text.primary"
               sx={{ letterSpacing: '0.04em', textTransform: 'uppercase', fontSize: '0.88rem' }}
             >
               AskFrame
