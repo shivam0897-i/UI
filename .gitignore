@@ -24,5 +24,8 @@ Thumbs.db
 *.log
 npm-debug.log*
 
+# Documentation (local reference only)
+docs/
+
 # Vercel
 .vercel
