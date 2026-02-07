@@ -1,7 +1,6 @@
 import { Box, Typography, Paper, Link as MuiLink } from '@mui/material';
 import ReactMarkdown from 'react-markdown';
 import type { ChatMessage } from '@/api/types';
-import { ConfidenceBadge } from '@/components/common';
 
 interface ChatBubbleProps {
   message: ChatMessage;
@@ -83,11 +82,6 @@ export default function ChatBubble({ message }: ChatBubbleProps) {
             >
               {message.content}
             </ReactMarkdown>
-          </Box>
-        )}
-        {message.confidence != null && (
-          <Box sx={{ mt: 0.75 }}>
-            <ConfidenceBadge score={message.confidence} showLabel />
           </Box>
         )}
       </Paper>

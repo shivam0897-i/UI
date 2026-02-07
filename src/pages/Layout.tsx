@@ -202,7 +202,7 @@ export default function Layout() {
               '& .MuiDrawer-paper': {
                 width: DRAWER_WIDTH,
                 boxSizing: 'border-box',
-                bgcolor: 'background.default',
+                bgcolor: 'background.paper',
                 borderRight: 1,
                 borderColor: 'divider',
                 borderLeft: 'none',

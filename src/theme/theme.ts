@@ -124,7 +124,7 @@ export const lightTheme = createTheme({
     primary: { main: '#3E7A6C', light: '#5B9A8B', dark: '#2E5E52' },       // Muted sage
     secondary: { main: '#A67444', light: '#C08B5C', dark: '#8A5E36' },     // Warm copper
     background: {
-      default: '#F6F8FA',
+      default: '#F0F2F5',
       paper: '#FFFFFF',
     },
     error: { main: '#C4463A' },
