@@ -12,6 +12,7 @@ import GalleryPage from '@/pages/GalleryPage';
 import ImageDetailPage from '@/pages/ImageDetailPage';
 import LoginPage from '@/pages/LoginPage';
 import RegisterPage from '@/pages/RegisterPage';
+import LandingPage from '@/pages/LandingPage';
 import NotFoundPage from '@/pages/NotFoundPage';
 
 const queryClient = new QueryClient({
@@ -37,7 +38,8 @@ export default function App() {
             <BrowserRouter>
               <AuthProvider>
                 <Routes>
-                  {/* Public auth routes */}
+                  {/* Public routes */}
+                  <Route index element={<LandingPage />} />
                   <Route path="login" element={<LoginPage />} />
                   <Route path="register" element={<RegisterPage />} />
 
@@ -49,7 +51,7 @@ export default function App() {
                       </ProtectedRoute>
                     }
                   >
-                    <Route index element={<HomePage />} />
+                    <Route path="dashboard" element={<HomePage />} />
                     <Route path="upload" element={<UploadPage />} />
                     <Route path="search" element={<SearchPage />} />
                     <Route path="gallery" element={<GalleryPage />} />

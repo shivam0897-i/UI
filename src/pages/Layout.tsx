@@ -34,7 +34,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { revokeAllImageUrls } from '@/utils/imageUrl';
 
 const NAV_ITEMS = [
-  { label: 'Home', path: '/', icon: <HomeIcon /> },
+  { label: 'Home', path: '/dashboard', icon: <HomeIcon /> },
   { label: 'Upload', path: '/upload', icon: <CloudUploadIcon /> },
   { label: 'Search', path: '/search', icon: <SearchIcon /> },
   { label: 'Gallery', path: '/gallery', icon: <CollectionsIcon /> },
@@ -85,7 +85,7 @@ export default function Layout() {
     setAnchorEl(null);
     revokeAllImageUrls();
     logout();
-    navigate('/login', { replace: true });
+    navigate('/', { replace: true });
   };
 
   const navContent = (

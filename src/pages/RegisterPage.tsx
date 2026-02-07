@@ -60,7 +60,7 @@ export default function RegisterPage() {
   const location = useLocation();
   const { register, isAuthenticated } = useAuth();
 
-  const from = (location.state as { from?: Location })?.from?.pathname || '/';
+  const from = (location.state as { from?: Location })?.from?.pathname || '/dashboard';
 
   // Redirect away if already authenticated
   useEffect(() => {
@@ -121,6 +121,13 @@ export default function RegisterPage() {
       }}
     >
       <Paper sx={{ maxWidth: 420, width: '100%', p: 4, borderRadius: 3 }}>
+        {/* Back link */}
+        <Box sx={{ mb: 2 }}>
+          <Link component={RouterLink} to="/" underline="hover" variant="body2" color="text.secondary" sx={{ display: 'inline-flex', alignItems: 'center', gap: 0.5 }}>
+            ← Back to home
+          </Link>
+        </Box>
+
         {/* Logo */}
         <Box sx={{ textAlign: 'center', mb: 4 }}>
           <Box
