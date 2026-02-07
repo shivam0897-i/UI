@@ -10,6 +10,7 @@ import {
   CircularProgress,
   Link,
 } from '@mui/material';
+import { Logo } from '@/components/common';
 import { useAuth } from '@/contexts/AuthContext';
 
 export default function LoginPage() {
@@ -67,20 +68,7 @@ export default function LoginPage() {
 
         {/* Logo */}
         <Box sx={{ textAlign: 'center', mb: 4 }}>
-          <Box
-            sx={{
-              width: 48,
-              height: 48,
-              borderRadius: '3px',
-              border: (t) => `2px solid ${t.palette.text.primary}`,
-              display: 'inline-flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              mb: 2,
-            }}
-          >
-            <Box sx={{ width: 10, height: 10, bgcolor: 'primary.main', borderRadius: '2px' }} />
-          </Box>
+          <Logo variant="mark" size={48} sx={{ color: 'text.primary', mb: 2 }} />
           <Typography variant="h5" fontWeight={700}>
             Welcome back
           </Typography>

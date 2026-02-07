@@ -9,6 +9,7 @@ import {
   CircularProgress,
   alpha,
 } from '@mui/material';
+import { ProcessingIcon } from '@/components/common';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import LinkIcon from '@mui/icons-material/Link';
 import { useDropzone } from 'react-dropzone';
@@ -92,7 +93,7 @@ export default function ImageUploader({
         >
           <input {...getInputProps()} id="upload-file-input" name="upload-file" />
           {isUploading ? (
-            <CircularProgress size={48} />
+            <ProcessingIcon size={56} />
           ) : (
             <>
               <CloudUploadIcon sx={{ fontSize: 48, color: 'text.secondary', mb: 1 }} />

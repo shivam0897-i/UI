@@ -17,6 +17,7 @@ import {
 } from '@mui/material';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CancelIcon from '@mui/icons-material/Cancel';
+import { Logo } from '@/components/common';
 import { useAuth } from '@/contexts/AuthContext';
 
 // ─── Validation helpers ─────────────────────────────────────────────
@@ -130,20 +131,7 @@ export default function RegisterPage() {
 
         {/* Logo */}
         <Box sx={{ textAlign: 'center', mb: 4 }}>
-          <Box
-            sx={{
-              width: 48,
-              height: 48,
-              borderRadius: '3px',
-              border: (t) => `2px solid ${t.palette.text.primary}`,
-              display: 'inline-flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              mb: 2,
-            }}
-          >
-            <Box sx={{ width: 10, height: 10, bgcolor: 'primary.main', borderRadius: '2px' }} />
-          </Box>
+          <Logo variant="mark" size={48} sx={{ color: 'text.primary', mb: 2 }} />
           <Typography variant="h5" fontWeight={700}>
             Create an account
           </Typography>

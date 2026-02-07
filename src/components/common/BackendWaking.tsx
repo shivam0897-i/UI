@@ -1,4 +1,6 @@
 import { Box, Typography, LinearProgress, Fade, alpha } from '@mui/material';
+import Logo from './Logo';
+import ProcessingIcon from './ProcessingIcon';
 
 interface BackendWakingProps {
   isWaking: boolean;
@@ -25,21 +27,10 @@ export default function BackendWaking({ isWaking, retryCount }: BackendWakingPro
         }}
       >
         {/* Simple logo */}
-        <Box
-          sx={{
-            width: 56,
-            height: 56,
-            borderRadius: 2,
-            bgcolor: 'primary.main',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-        >
-          <Typography variant="h6" sx={{ color: '#fff', fontWeight: 700, letterSpacing: 0.5 }}>
-            VQ
-          </Typography>
-        </Box>
+        <Logo variant="mark" size={56} sx={{ color: 'primary.main' }} />
+
+        {/* Active scanning animation */}
+        <ProcessingIcon size={48} sx={{ my: 1 }} />
 
         <Typography variant="h6" fontWeight={600}>
           Waking up the backend

@@ -18,7 +18,7 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
 import GitHubIcon from '@mui/icons-material/GitHub';
-import { ThemeToggle } from '@/components/common';
+import { ThemeToggle, Logo } from '@/components/common';
 import { useAuth } from '@/contexts/AuthContext';
 
 // ─── Monospace stack ─────────────────────────────────────────────────
@@ -193,30 +193,8 @@ export default function LandingPage() {
         <Container maxWidth="lg">
           <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', py: 1.5 }}>
             {/* Logo — Geometric frame + focus mark */}
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, cursor: 'default' }}>
-              <Box
-                sx={{
-                  width: 28,
-                  height: 28,
-                  border: `2px solid ${fg}`,
-                  borderRadius: '2px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}
-              >
-                <Box sx={{ width: 6, height: 6, bgcolor: sage, borderRadius: '1px' }} />
-              </Box>
-              <Typography
-                sx={{
-                  fontWeight: 700,
-                  fontSize: '0.92rem',
-                  letterSpacing: '0.06em',
-                  textTransform: 'uppercase',
-                }}
-              >
-                AskFrame
-              </Typography>
+            <Box sx={{ display: 'flex', alignItems: 'center', cursor: 'default' }}>
+              <Logo variant="full" size={28} sx={{ color: fg }} />
             </Box>
 
             {!isMobile ? (

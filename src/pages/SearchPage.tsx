@@ -1,5 +1,6 @@
 import { useState, useCallback, useMemo, useEffect, useRef } from 'react';
-import { Box, Typography, Alert, CircularProgress, Pagination } from '@mui/material';
+import { Box, Typography, Alert, Pagination } from '@mui/material';
+import { ProcessingIcon } from '@/components/common';
 import { searchText, searchSimilarByFile } from '@/api/endpoints';
 import type { NormalizedImage, SearchResult, PaginationInfo } from '@/api/types';
 import { normalizeFromSearchResult } from '@/api/normalize';
@@ -178,7 +179,7 @@ export default function SearchPage() {
       {/* Loading */}
       {loading && (
         <Box sx={{ display: 'flex', justifyContent: 'center', py: 6 }}>
-          <CircularProgress />
+          <ProcessingIcon size={56} />
         </Box>
       )}
 

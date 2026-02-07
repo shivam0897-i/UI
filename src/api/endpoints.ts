@@ -158,7 +158,7 @@ export function searchSimilarById(
   );
 }
 
-// ─── Visual Question Answering ──────────────────────────────────────
+// ─── Ask — Image Q&A ────────────────────────────────────────────────
 
 export function askQuestion(
   imageId: string,

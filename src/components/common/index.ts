@@ -6,3 +6,5 @@ export { default as EmptyState } from './EmptyState';
 export { default as ThemeToggle } from './ThemeToggle';
 export { default as BackendWaking } from './BackendWaking';
 export { default as ProtectedRoute } from './ProtectedRoute';
+export { default as Logo } from './Logo';
+export { default as ProcessingIcon } from './ProcessingIcon';

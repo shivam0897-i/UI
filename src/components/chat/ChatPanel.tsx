@@ -68,7 +68,7 @@ export default function ChatPanel({ messages, onSendMessage, isLoading, metadata
       {/* Input */}
       <Box sx={{ p: 1.5 }}>
         <TextField
-          id="vqa-question"
+          id="ask-question"
           fullWidth
           placeholder="Type your question..."
           value={input}

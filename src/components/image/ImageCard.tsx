@@ -5,7 +5,7 @@ import ImageNotSupportedIcon from '@mui/icons-material/ImageNotSupported';
 import { useNavigate } from 'react-router-dom';
 import type { NormalizedImage } from '@/api/types';
 import { useAuthImage } from '@/hooks';
-import { ConfidenceBadge, StatusChip } from '@/components/common';
+import { ConfidenceBadge, StatusChip, ProcessingIcon } from '@/components/common';
 
 interface ImageCardProps {
   image: NormalizedImage;
@@ -65,7 +65,26 @@ export default function ImageCard({ image, onFindSimilar }: ImageCardProps) {
               loading="lazy"
             />
           )}
-          {image.status && (
+          {/* Processing Overlay */}
+          {image.status === 'processing' && (
+            <Box
+              sx={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                bgcolor: 'rgba(0,0,0,0.4)',
+                zIndex: 2,
+              }}
+            >
+              <ProcessingIcon size={48} sx={{ color: 'white' }} />
+            </Box>
+          )}
+          {image.status && image.status !== 'processing' && (
             <Box sx={{ position: 'absolute', top: 10, right: 10 }}>
               <StatusChip status={image.status} />
             </Box>

@@ -22,7 +22,7 @@ import { getImageMetadata, deleteImage, askQuestion, searchSimilarById } from '@
 import type { ImageDocument, ChatMessage, NormalizedImage } from '@/api/types';
 import { normalizeFromSearchResult } from '@/api/normalize';
 import { BoundingBoxOverlay, ImageMetadataPanel, ImageGrid } from '@/components/image';
-import { ChatPanel } from '@/components/vqa';
+import { ChatPanel } from '@/components/chat';
 import { LoadingSkeleton } from '@/components/common';
 import { useAuthImage } from '@/hooks';
 
@@ -34,7 +34,7 @@ export default function ImageDetailPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // VQA Chat
+  // Ask — image Q&A chat
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [chatLoading, setChatLoading] = useState(false);
 
@@ -62,7 +62,7 @@ export default function ImageDetailPage() {
       .finally(() => setLoading(false));
   }, [imageId]);
 
-  // Send VQA question
+  // Send question to AskFrame
   const handleSendMessage = useCallback(
     async (question: string) => {
       if (!imageId) return;

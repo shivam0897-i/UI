@@ -120,7 +120,7 @@ export interface SearchResponse {
   pagination: PaginationInfo | null;
 }
 
-// ─── VQA ────────────────────────────────────────────────────────────
+// ─── Ask — Image Q&A (backend field names use "vqa" prefix) ─────────
 
 export interface VQAResponse {
   image_id: string;

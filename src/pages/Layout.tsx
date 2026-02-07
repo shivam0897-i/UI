@@ -3,7 +3,6 @@ import { Outlet, useNavigate, useLocation } from 'react-router-dom';
 import {
   AppBar,
   Toolbar,
-  Typography,
   Box,
   IconButton,
   Drawer,
@@ -27,7 +26,7 @@ import CollectionsIcon from '@mui/icons-material/Collections';
 import LogoutIcon from '@mui/icons-material/Logout';
 import PersonIcon from '@mui/icons-material/Person';
 import type { SxProps, Theme } from '@mui/material';
-import { ThemeToggle, BackendWaking } from '@/components/common';
+import { ThemeToggle, BackendWaking, Logo } from '@/components/common';
 import { useBackendHealth } from '@/hooks';
 import { useAuth } from '@/contexts/AuthContext';
 import { revokeAllImageUrls } from '@/utils/imageUrl';
@@ -50,17 +49,7 @@ const layoutStyles: Record<string, SxProps<Theme>> = {
     borderBottom: 1,
     borderColor: 'divider',
   },
-  logoMark: {
-    width: 28,
-    height: 28,
-    borderRadius: '2px',
-    border: 2,
-    borderColor: 'text.primary',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexShrink: 0,
-  },
+
   mainContent: {
     flexGrow: 1,
     p: { xs: 2, sm: 3 },
@@ -122,23 +111,10 @@ export default function Layout() {
           )}
 
           <Box
-            sx={{ display: 'flex', alignItems: 'center', gap: 1, cursor: 'pointer' }}
+            sx={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}
             onClick={() => navigate('/')}
           >
-            {/* Logo mark */}
-            <Box
-              sx={layoutStyles.logoMark}
-            >
-              <Box sx={{ width: 6, height: 6, bgcolor: 'primary.main', borderRadius: '1px' }} />
-            </Box>
-            <Typography
-              variant="h6"
-              fontWeight={700}
-              color="text.primary"
-              sx={{ letterSpacing: '0.04em', textTransform: 'uppercase', fontSize: '0.88rem' }}
-            >
-              AskFrame
-            </Typography>
+            <Logo variant="full" size={28} sx={{ color: 'text.primary' }} />
           </Box>
 
           <Box sx={{ flexGrow: 1 }} />
